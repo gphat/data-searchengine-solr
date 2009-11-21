@@ -9,7 +9,7 @@ build_requires 'Test::More';
 
 requires 'WebService::Solr' => '0.08';
 requires 'Time::HiRes';
-requiers 'Moose' => '0.92';
+requires 'Moose' => '0.92';
 
 WriteAll;
 
