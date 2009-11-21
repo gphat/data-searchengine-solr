@@ -61,16 +61,9 @@ sub search {
         elapsed => time - $start
     );
 
-    use Data::Dumper;
-    print STDERR Dumper($resp->content);
-
-    print STDERR Dumper($resp->facet_counts);
-
     my $facets = $resp->facet_counts;
     if(exists($facets->{facet_fields})) {
         foreach my $facet (keys %{ $facets->{facet_fields} }) {
-            print STDERR "#### $facet\n";
-            print STDERR Dumper($facets->{facet_fields}->{$facet});
             $result->set_facet($facet, $facets->{facet_fields}->{$facet});
         }
     }
@@ -79,8 +72,6 @@ sub search {
             $result->set_facet($facet, $facets->{facet_queries}->{$facet});
         }
     }
-
-    print STDERR Dumper($result->facets);
 
     foreach my $doc ($resp->docs) {
 
@@ -106,68 +97,40 @@ __END__
 
 Data::SearchEngine::Solr - Data::SearchEngine backend for Solr
 
-=head1 VERSION
-
-Version 0.01
-
-=cut
-
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
+  my $solr = Data::SearchEngine::Solr->new(
+    url => 'http://localhost:8983/solr',
+    options => {
+        fq => 'category:Foo',
+        facets => 'true'
+    }
+  );
 
-Perhaps a little code snippet.
+  my $query = Data::SearchEngine::Query->new(
+    count => 10,
+    page => 1,
+    query => 'ice cream',
+  );
 
-    use Data::SearchEngine::Solr;
+  my $results = $solr->search($query);
 
-    my $foo = Data::SearchEngine::Solr->new();
-    ...
+  foreach my $item ($results->items) {
+    print $item->get_value('name')."\n";
+  }
+
+=head1 DESCRIPTION
+
+Data::SearchEngine::Solr is a Data::SearcEngine backend for the Solr
+search server.
+
+=head1 WARNING
+
+This module is under active development is changing quickly.  Patches welcome!
 
 =head1 AUTHOR
 
 Cory G Watson, C<< <gphat at cpan.org> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to C<bug-data-searchengine-solr at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Data-SearchEngine-Solr>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
-
-
-
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Data::SearchEngine::Solr
-
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Data-SearchEngine-Solr>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Data-SearchEngine-Solr>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Data-SearchEngine-Solr>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/Data-SearchEngine-Solr/>
-
-=back
-
-
-=head1 ACKNOWLEDGEMENTS
-
 
 =head1 COPYRIGHT & LICENSE
 
