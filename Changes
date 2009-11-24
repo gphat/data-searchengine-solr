@@ -1,5 +1,9 @@
 Revision history for Data-SearchEngine-Solr
 
+0.03    
+  * Honor Query's order attribute.
+  * Pagination now works (Query page & rows)
+
 0.01    Date/time
         First version, released on an unsuspecting world.
 

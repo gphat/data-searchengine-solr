@@ -52,6 +52,14 @@ sub search {
         }
     }
 
+    if($query->has_order) {
+        $options->{sort} = $query->order;
+    }
+
+    if($query->page > 1) {
+        $options->{start} = ($query->page - 1) * $query->count;
+    }
+
     my $start = time;
     my $resp = $self->_solr->search($query->query, $options);
 
