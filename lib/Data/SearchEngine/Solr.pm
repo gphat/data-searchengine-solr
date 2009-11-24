@@ -8,7 +8,7 @@ use Time::HiRes qw(time);
 
 with 'Data::SearchEngine';
 
-our $VERSION = '0.01';
+our $VERSION = '0.03';
 
 has options => (
     is => 'ro',
