@@ -3,6 +3,7 @@ Revision history for Data-SearchEngine-Solr
 0.03    November 24th, 2009
   * Honor Query's order attribute.
   * Pagination now works (Query page & rows)
+  * Bump deps
 
 0.02    November 23rd, 2009
   * Correct missing dependency on Data::SearchEngine (duh, Thanks Andreas Keonig)
