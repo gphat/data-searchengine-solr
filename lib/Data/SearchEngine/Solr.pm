@@ -63,7 +63,7 @@ sub search {
     my $start = time;
     my $resp = $self->_solr->search($query->query, $options);
 
-    my $result = Data::SearchEngine::Results->new(
+    my $result = Data::SearchEngine::Solr::Results->new(
         query => $query,
         pager => $resp->pager,
         elapsed => time - $start
