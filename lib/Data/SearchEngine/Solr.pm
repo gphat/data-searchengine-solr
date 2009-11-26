@@ -129,12 +129,50 @@ Data::SearchEngine::Solr - Data::SearchEngine backend for Solr
 
 =head1 DESCRIPTION
 
-Data::SearchEngine::Solr is a Data::SearcEngine backend for the Solr
+Data::SearchEngine::Solr is a L<Data::SearcEngine> backend for the Solr
 search server.
 
-=head1 WARNING
+=head1 SOLR FEATURES
 
-This module is under active development is changing quickly.  Patches welcome!
+=head2 FILTERS
+
+This module uses the values from Data::SearchEngine::Query's C<filters> to
+populate the C<fq> parameter.  Before talking to Solr we iterate over the
+filters and add the filter's value to C<fq>.
+
+  $query->filters->{'last name watson'} = 'last_name:watson';
+
+Will results in fq=name:watson.  Multiple filters will be appended.
+
+=head2 FACETS
+
+Facets may be enabled thusly:
+
+  $solr->options->{facets} = 'true';
+  $solr->options->{facet.field} = 'somefield';
+
+You may also use other C<facet.*> parameters, as defined by Solr.
+
+To access facet data, consult the documentation for
+L<Data::SearchEngine::Results> and it's C<facets> method.
+
+=head1 ATTRIBUTES
+
+=head2 options
+
+HashRef that is passed to L<WebService::Solr>.  Please see the above
+documentation on filters and facets before using this directly.
+
+=head2 url
+
+The URL at which to contact the Solr instance.
+
+=head1 METHODS
+
+=head2 search ($query)
+
+Accepts a L<Data::SearchEngine::Query> and returns a
+L<Data::SearchEngine::Results> object containing the data from Solr.
 
 =head1 AUTHOR
 
