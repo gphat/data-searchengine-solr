@@ -1,6 +1,6 @@
 Revision history for Data-SearchEngine-Solr
 
-0.04 November 25th, 2009
+0.04    November 25th, 2009
   * Use Data::SearchEngine::Results::Faceted
 
 0.03    November 24th, 2009
