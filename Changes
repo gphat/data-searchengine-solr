@@ -1,5 +1,9 @@
 Revision history for Data-SearchEngine-Solr
 
+0.05    November 30th, 2009
+  * Fix paginator requirements
+  * Fix missing include
+
 0.04    November 25th, 2009
   * Use Data::SearchEngine::Results::Faceted
 

@@ -1,14 +1,15 @@
 package Data::SearchEngine::Solr;
 use Moose;
 
-use WebService::Solr;
+use Data::SearchEngine::Paginator;
 use Data::SearchEngine::Item;
-use Data::SearchEngine::Results;
+use Data::SearchEngine::Solr::Results;
 use Time::HiRes qw(time);
+use WebService::Solr;
 
 with 'Data::SearchEngine';
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 has options => (
     is => 'ro',
@@ -63,9 +64,16 @@ sub search {
     my $start = time;
     my $resp = $self->_solr->search($query->query, $options);
 
+    my $dpager = $resp->pager;
+    my $pager = Data::SearchEngine::Paginator->new(
+        current_page => $dpager->current_page,
+        entries_per_page => $dpager->entries_per_page,
+        total_entries => $dpager->total_entries
+    );
+
     my $result = Data::SearchEngine::Solr::Results->new(
         query => $query,
-        pager => $resp->pager,
+        pager => $pager,
         elapsed => time - $start
     );
 
