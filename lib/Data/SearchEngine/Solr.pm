@@ -9,7 +9,7 @@ use WebService::Solr;
 
 with 'Data::SearchEngine';
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 has options => (
     is => 'ro',
@@ -86,6 +86,15 @@ sub search {
     if(exists($facets->{facet_queries})) {
         foreach my $facet (keys %{ $facets->{facet_queries} }) {
             $result->set_facet($facet, $facets->{facet_queries}->{$facet});
+        }
+    }
+
+    my $spellcheck = $resp->content->{spellcheck};
+    if(defined($spellcheck) && exists($spellcheck->{suggestions})) {
+        my $suggcount = 0;
+        while(my $word = $spellcheck->{suggestions}->[$suggcount]) {
+            $result->set_spellcheck($word, $spellcheck->{suggestions}->[$suggcount + 1]->{suggestion});
+            $suggcount += 2;
         }
     }
 

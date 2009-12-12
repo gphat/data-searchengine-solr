@@ -3,6 +3,9 @@ use Moose;
 
 extends 'Data::SearchEngine::Results';
 
-with 'Data::SearchEngine::Results::Faceted';
+with (
+    'Data::SearchEngine::Results::Faceted',
+    'Data::SearchEngine::Results::Spellcheck'
+);
 
 1;

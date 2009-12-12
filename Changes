@@ -1,5 +1,8 @@
 Revision history for Data-SearchEngine-Solr
 
+0.06
+  * Spellchecking support
+
 0.05    November 30th, 2009
   * Fix paginator requirements
   * Fix missing include
