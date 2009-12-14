@@ -3,6 +3,7 @@ use Moose;
 
 use Data::SearchEngine::Paginator;
 use Data::SearchEngine::Item;
+use Data::SearchEngine::Results::Spellcheck::Suggestion;
 use Data::SearchEngine::Solr::Results;
 use Time::HiRes qw(time);
 use WebService::Solr;
@@ -90,11 +91,48 @@ sub search {
     }
 
     my $spellcheck = $resp->content->{spellcheck};
+
     if(defined($spellcheck) && exists($spellcheck->{suggestions})) {
+        my $suggs = $spellcheck->{suggestions};
         my $suggcount = 0;
-        while(my $word = $spellcheck->{suggestions}->[$suggcount]) {
-            $result->set_spellcheck($word, $spellcheck->{suggestions}->[$suggcount + 1]->{suggestion});
-            $suggcount += 2;
+        for(my $i = 0; $i < scalar(@{ $suggs }); $i += 2) {
+            my $sword = $suggs->[$i];
+            my $data = $suggs->[$suggcount + 1];
+
+            # Necessary to skip some of the non-hash pieces, like
+            # correctlySpelled in the extended results
+            next unless ref($data) eq 'HASH';
+
+            if(exists($data->{origFreq})) {
+                # Only present in the extended results
+                $result->set_spell_frequency($sword, $data->{origFreq});
+            }
+
+            my $suggdata = $data->{suggestion};
+            if(defined($suggdata) && ref($suggdata) eq 'ARRAY') {
+                foreach my $sugg (@{ $suggdata }) {
+
+                    if(ref($sugg) eq 'HASH') {
+                        # This handles "extended results" from the spellcheck
+                        # component...
+                        $result->set_spell_suggestion($sugg->{word},
+                            Data::SearchEngine::Results::Spellcheck::Suggestion->new(
+                                word        => $sugg->{word},
+                                frequency   => $sugg->{freq}
+                            )
+                        );
+                    } else {
+                        # This handles non-"extended results" from the spellcheck
+                        # component...
+                        $result->set_spell_suggestion($sugg,
+                            Data::SearchEngine::Results::Spellcheck::Suggestion->new(
+                                word    => $sugg,
+                            )
+                        );
+                    }
+                }
+            }
+            $suggcount++;
         }
     }
 
