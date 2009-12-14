@@ -96,10 +96,14 @@ sub search {
 
     if(defined($spellcheck) && exists($spellcheck->{suggestions})) {
         my $suggs = $spellcheck->{suggestions};
-        my $suggcount = 0;
         for(my $i = 0; $i < scalar(@{ $suggs }); $i += 2) {
             my $sword = $suggs->[$i];
-            my $data = $suggs->[$suggcount + 1];
+            my $data = $suggs->[$i + 1];
+
+            if($sword eq 'collation') {
+                $result->spell_collation($data);
+                next;
+            }
 
             # Necessary to skip some of the non-hash pieces, like
             # correctlySpelled in the extended results
@@ -136,7 +140,6 @@ sub search {
                     }
                 }
             }
-            $suggcount++;
         }
     }
 
