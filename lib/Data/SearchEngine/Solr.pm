@@ -66,10 +66,12 @@ sub search {
     my $resp = $self->_solr->search($query->query, $options);
 
     my $dpager = $resp->pager;
+    # The response will have no pager if there were no results, so we handle
+    # that here.
     my $pager = Data::SearchEngine::Paginator->new(
-        current_page => $dpager->current_page,
-        entries_per_page => $dpager->entries_per_page,
-        total_entries => $dpager->total_entries
+        current_page => defined($dpager) ? $dpager->current_page : 0,
+        entries_per_page => defined($dpager) ? $dpager->entries_per_page : 0,
+        total_entries => defined($dpager) ? $dpager->total_entries : 0
     );
 
     my $result = Data::SearchEngine::Solr::Results->new(
@@ -117,6 +119,7 @@ sub search {
                         # component...
                         $result->set_spell_suggestion($sugg->{word},
                             Data::SearchEngine::Results::Spellcheck::Suggestion->new(
+                                original_word => $sword,
                                 word        => $sugg->{word},
                                 frequency   => $sugg->{freq}
                             )
@@ -126,6 +129,7 @@ sub search {
                         # component...
                         $result->set_spell_suggestion($sugg,
                             Data::SearchEngine::Results::Spellcheck::Suggestion->new(
+                                original_word => $sword,
                                 word    => $sugg,
                             )
                         );
