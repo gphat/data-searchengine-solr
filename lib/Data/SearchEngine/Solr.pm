@@ -8,9 +8,12 @@ use Data::SearchEngine::Solr::Results;
 use Time::HiRes qw(time);
 use WebService::Solr;
 
-with 'Data::SearchEngine';
+with (
+    'Data::SearchEngine',
+    'Data::SearchEngine::Modifiable'
+);
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 has options => (
     is => 'ro',
@@ -37,6 +40,42 @@ sub _build__solr {
     my ($self) = @_;
 
     return WebService::Solr->new($self->url);
+}
+
+sub add {
+    my ($self, $items, $options) = @_;
+
+    my @docs;
+    foreach my $item (@{ $items }) {
+        my $doc = WebService::Solr::Document->new;
+        $doc->add_fields(id => $item->id);
+
+        foreach my $key ($item->keys) {
+            my $val = $item->get_value($key);
+            if(ref($val)) {
+                foreach my $v (@{ $val }) {
+                    $doc->add_fields($key => $v);
+                }
+            }  else {
+                $doc->add_fields($key => $val);
+            }
+        }
+        push(@docs, $doc);
+    }
+
+    $self->_solr->add(\@docs, $options);
+    $self->_solr->optimize;
+}
+
+sub present {
+    warn 'present is not implemented\n';
+    return 0;
+}
+
+sub remove {
+    my ($self, $query, $id) = @_;
+
+    $self->_solr->delete({ query => $query, id => $id });
 }
 
 sub search {
@@ -159,6 +198,12 @@ sub search {
     return $result;
 }
 
+sub update {
+    my $self = shift;
+
+    $self->add(@_);
+}
+
 1;
 
 __END__
@@ -231,10 +276,36 @@ The URL at which to contact the Solr instance.
 
 =head1 METHODS
 
+=head2 add (\@items)
+
+Adds a list of L<Data::SearchEngine::Item>s to the Solr index.  The Items
+are converted into L<WebService::Solr::Document>s using the follow means:
+
+=over 4
+
+=item C<score> is used as the bonus.
+
+=item C<id> is used as the document's id.
+
+=item Multiple-value fields are broken up into multiple
+L<WebService::Solr::Field> objects per L<WebService::Solr>'s convention.  This
+is merely a formality, it has no real affect.
+
+=back
+
+=head2 delete
+
+Deletes an item from the index.  A straight dispatch to L<WebService::Solr>'s
+C<delete>.
+
 =head2 search ($query)
 
 Accepts a L<Data::SearchEngine::Query> and returns a
 L<Data::SearchEngine::Results> object containing the data from Solr.
+
+=head2 update
+
+Alias for C<add>.
 
 =head1 AUTHOR
 

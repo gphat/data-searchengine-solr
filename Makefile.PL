@@ -7,10 +7,10 @@ license  'perl';
 
 build_requires 'Test::More';
 
-requires 'WebService::Solr' => '0.08';
+requires 'WebService::Solr' => '0.10';
 requires 'Time::HiRes';
 requires 'Moose' => '0.92';
-requires 'Data::SearchEngine' => '0.10';
+requires 'Data::SearchEngine' => '0.11';
 
 WriteAll;
 

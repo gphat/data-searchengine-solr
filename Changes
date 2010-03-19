@@ -1,5 +1,8 @@
 Revision history for Data-SearchEngine-Solr
 
+0.07
+  * Add Modifiable role and implement methods that Solr can be updated!
+
 0.06
   * Spellchecking support
 
