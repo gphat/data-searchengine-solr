@@ -13,7 +13,7 @@ with (
     'Data::SearchEngine::Modifiable'
 );
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 has options => (
     is => 'ro',
@@ -104,6 +104,9 @@ sub search {
     my $start = time;
     my $resp = $self->_solr->search($query->query, $options);
 
+    use Data::Dumper;
+    print STDERR Dumper($resp);
+
     my $dpager = $resp->pager;
     # The response will have no pager if there were no results, so we handle
     # that here.
@@ -142,6 +145,8 @@ sub search {
             if($sword eq 'collation') {
                 $result->spell_collation($data);
                 next;
+            } elsif($sword eq 'correctlySpelled') {
+                $result->spelled_correctly($data ? 1 : 0);
             }
 
             # Necessary to skip some of the non-hash pieces, like
@@ -262,6 +267,15 @@ You may also use other C<facet.*> parameters, as defined by Solr.
 
 To access facet data, consult the documentation for
 L<Data::SearchEngine::Results> and it's C<facets> method.
+
+=head2 SPELLCHECK
+
+Queries may be spellchecked using Solr's spellcheck component. If you supply
+the correct parameters through the URL or to your URI handler then
+Data::SearchEngine::Solr will see it in the results and populate the bits from
+L<Data::SearchEngine::Results::Spellcheck>.  Note that some of the features
+may not work properly unless C<spellcheck.extendedResults> is true in your
+query.
 
 =head1 ATTRIBUTES
 
