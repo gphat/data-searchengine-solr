@@ -13,7 +13,7 @@ with (
     'Data::SearchEngine::Modifiable'
 );
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 has options => (
     is => 'ro',
@@ -103,9 +103,6 @@ sub search {
 
     my $start = time;
     my $resp = $self->_solr->search($query->query, $options);
-
-    use Data::Dumper;
-    print STDERR Dumper($resp);
 
     my $dpager = $resp->pager;
     # The response will have no pager if there were no results, so we handle

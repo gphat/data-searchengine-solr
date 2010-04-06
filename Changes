@@ -1,5 +1,8 @@
 Revision history for Data-SearchEngine-Solr
 
+0.09
+  * Remove some accidental debugging.
+
 0.08
   * Document Spellcheck role and add support for spelled_correctly.
 
