@@ -1,5 +1,9 @@
 Revision history for Data-SearchEngine-Solr
 
+0.11
+  * Use WebService::Solr get_values instead of get_value so that
+    multiple values work (Craig Hall)
+
 0.10
   * POD fix (Craig Hall)
 
