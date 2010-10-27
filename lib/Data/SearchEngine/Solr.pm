@@ -13,7 +13,7 @@ with (
     'Data::SearchEngine::Modifiable'
 );
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 has options => (
     is => 'ro',
@@ -51,7 +51,7 @@ sub add {
         $doc->add_fields(id => $item->id);
 
         foreach my $key ($item->keys) {
-            my $val = $item->get_values($key);
+            my $val = $item->get_value($key);
             if(ref($val)) {
                 foreach my $v (@{ $val }) {
                     $doc->add_fields($key => $v);
