@@ -13,7 +13,7 @@ with (
     'Data::SearchEngine::Modifiable'
 );
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 has options => (
     is => 'ro',
@@ -238,7 +238,7 @@ Data::SearchEngine::Solr - Data::SearchEngine backend for Solr
 
 =head1 DESCRIPTION
 
-Data::SearchEngine::Solr is a L<Data::SearcEngine> backend for the Solr
+Data::SearchEngine::Solr is a L<Data::SearchEngine> backend for the Solr
 search server.
 
 =head1 SOLR FEATURES

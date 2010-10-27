@@ -1,5 +1,8 @@
 Revision history for Data-SearchEngine-Solr
 
+0.10
+  * POD fix (Craig Hall)
+
 0.09
   * Remove some accidental debugging.
 
