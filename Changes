@@ -1,5 +1,8 @@
 Revision history for Data-SearchEngine-Solr
 
+0.10
+  * Change get_value to get_values
+
 0.09
   * Remove some accidental debugging.
 
