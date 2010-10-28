@@ -1,5 +1,10 @@
 Revision history for Data-SearchEngine-Solr
 
+0.13
+  * Change search to return array of values instead of last value from array,
+    and a test to prove it works (Craig Hall)
+  * Bump WebService::Solr dep to 0.11
+
 0.12
   * Undo last change
 

@@ -13,7 +13,7 @@ with (
     'Data::SearchEngine::Modifiable'
 );
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 has options => (
     is => 'ro',
@@ -187,8 +187,13 @@ sub search {
     foreach my $doc ($resp->docs) {
 
         my %values;
-        foreach my $f ($doc->fields) {
-            $values{$f->name} = $f->value;
+        foreach my $fn ($doc->field_names) {
+            my @n_values = $doc->values_for($fn);
+            if (scalar(@n_values) > 1) {
+                @{$values{$fn}} = @n_values;
+            } else {
+                $values{$fn} = $n_values[0];
+            }
         }
 
         $result->add(Data::SearchEngine::Item->new(
