@@ -13,7 +13,7 @@ with (
     'Data::SearchEngine::Modifiable'
 );
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 has options => (
     is => 'ro',
@@ -309,7 +309,7 @@ is merely a formality, it has no real affect.
 
 =back
 
-=head2 delete
+=head2 remove
 
 Deletes an item from the index.  A straight dispatch to L<WebService::Solr>'s
 C<delete>.
