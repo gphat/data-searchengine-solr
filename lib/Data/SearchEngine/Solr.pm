@@ -13,7 +13,7 @@ with (
     'Data::SearchEngine::Modifiable'
 );
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 has options => (
     is => 'ro',
