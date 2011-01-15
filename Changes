@@ -1,5 +1,8 @@
 Revision history for Data-SearchEngine-Solr
 
+0.16
+  * Add remove_by_id
+
 0.15
   * Manifest fixes
 

@@ -13,7 +13,7 @@ with (
     'Data::SearchEngine::Modifiable'
 );
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 has options => (
     is => 'ro',
@@ -76,6 +76,12 @@ sub remove {
     my ($self, $query, $id) = @_;
 
     $self->_solr->delete({ query => $query, id => $id });
+}
+
+sub remove_by_id {
+	my ($self, $id) = @_;
+	
+	return $self->_solr->delete_by_id($id);
 }
 
 sub search {
@@ -313,6 +319,10 @@ is merely a formality, it has no real affect.
 
 Deletes an item from the index.  A straight dispatch to L<WebService::Solr>'s
 C<delete>.
+
+=head2 remove_by_id
+
+Delete a specific document by it's id.
 
 =head2 search ($query)
 
