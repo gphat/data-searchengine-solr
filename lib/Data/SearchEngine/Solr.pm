@@ -64,6 +64,11 @@ sub add {
     }
 
     $self->_solr->add(\@docs, $options);
+}
+
+sub optimize {
+    my ($self) = @_;
+
     $self->_solr->optimize;
 }
 
@@ -315,6 +320,10 @@ is merely a formality, it has no real affect.
 
 =back
 
+=head2 optimize
+
+Calls WebService::Solr's C<optimize> method.
+
 =head2 remove
 
 Deletes an item from the index.  A straight dispatch to L<WebService::Solr>'s
@@ -339,7 +348,7 @@ Cory G Watson, C<< <gphat at cpan.org> >>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2009 Cory G Watson.
+Copyright 2009 - 2011 Cory G Watson.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published

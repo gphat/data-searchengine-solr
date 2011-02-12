@@ -1,5 +1,9 @@
 Revision history for Data-SearchEngine-Solr
 
+0.17
+  * Optimize is no longer called as a part of each add.
+  * optimize added as a separate method
+
 0.16
   * Add remove_by_id
 
