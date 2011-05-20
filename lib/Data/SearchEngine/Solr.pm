@@ -1,6 +1,7 @@
 package Data::SearchEngine::Solr;
 use Moose;
 
+use Clone qw(clone);
 use Data::SearchEngine::Paginator;
 use Data::SearchEngine::Item;
 use Data::SearchEngine::Results::Spellcheck::Suggestion;
@@ -13,7 +14,7 @@ with (
     'Data::SearchEngine::Modifiable'
 );
 
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 
 has options => (
     is => 'ro',
@@ -92,10 +93,9 @@ sub remove_by_id {
 sub search {
     my ($self, $query) = @_;
 
-    my $options = $self->options;
+    my $options = clone($self->options);
 
     $options->{rows} = $query->count;
-    # page?
 
     if($query->has_filters) {
         $options->{fq} = [];
@@ -108,9 +108,7 @@ sub search {
         $options->{sort} = $query->order;
     }
 
-    if($query->page > 1) {
-        $options->{start} = ($query->page - 1) * $query->count;
-    }
+    $options->{start} = ($query->page - 1) * $query->count;
 
     my $start = time;
     my $resp = $self->_solr->search($query->query, $options);

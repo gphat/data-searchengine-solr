@@ -1,5 +1,10 @@
 Revision history for Data-SearchEngine-Solr
 
+0.18
+  * Add Clone as a dependency so we can…
+  * Fix case where setting a query's page to !1, searching, then setting
+    the page to 1 would do nothing.  Do this by cloning the options hashref.
+
 0.17
   * Optimize is no longer called as a part of each add.
   * optimize added as a separate method
