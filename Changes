@@ -1,6 +1,8 @@
 Revision history for Data-SearchEngine-Solr
 
 {{$NEXT}}
+
+0.19 Oct 22 2011
   * Dist::Zilla
   * Bump dependency on Data::SearchEngine
   * Honor debug attribute of Query
