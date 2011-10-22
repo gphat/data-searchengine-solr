@@ -108,6 +108,10 @@ sub search {
         $options->{sort} = $query->order;
     }
 
+    if($query->has_debug) {
+        $options->{debug} = $query->debug;
+    }
+
     $options->{start} = ($query->page - 1) * $query->count;
 
     my $start = time;
@@ -125,7 +129,8 @@ sub search {
     my $result = Data::SearchEngine::Solr::Results->new(
         query => $query,
         pager => $pager,
-        elapsed => time - $start
+        elapsed => time - $start,
+        raw => $resp
     );
 
     my $facets = $resp->facet_counts;

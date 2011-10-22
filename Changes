@@ -1,5 +1,11 @@
 Revision history for Data-SearchEngine-Solr
 
+{{$NEXT}}
+  * Dist::Zilla
+  * Bump dependency on Data::SearchEngine
+  * Honor debug attribute of Query
+  * Populate raw attribute of Result
+
 0.18
   * Add Clone as a dependency so we can…
   * Fix case where setting a query's page to !1, searching, then setting
