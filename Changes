@@ -1,6 +1,8 @@
 Revision history for Data-SearchEngine-Solr
 
 {{$NEXT}}
+
+0.20 Dec 3 2011
   * Add die for find_by_id
 
 0.19 Oct 22 2011
