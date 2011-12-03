@@ -1,6 +1,7 @@
 Revision history for Data-SearchEngine-Solr
 
 {{$NEXT}}
+  * Add die for find_by_id
 
 0.19 Oct 22 2011
   * Dist::Zilla
